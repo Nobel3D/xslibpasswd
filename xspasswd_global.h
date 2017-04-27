@@ -1,0 +1,12 @@
+#ifndef XSLIBPASSWD_GLOBAL_H
+#define XSLIBPASSWD_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(XSLIBPASSWD_LIBRARY)
+#  define XSPASSWDSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define XSPASSWDSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // XSLIBPASSWD_GLOBAL_H
