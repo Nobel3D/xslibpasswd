@@ -4,10 +4,9 @@
 #include <QString>
 #include <xslib/xslib.h>
 
-#define HOME_PATH "/home/"
 #define PWFILE "/.xspasswd"
 #define DBFILE "/.xsdata.db"
-#define MAXHIT 6
+
 #include "xspasswd_global.h"
 
 class XSPASSWDSHARED_EXPORT xsPasswd
@@ -17,16 +16,18 @@ public:
     xsPasswd();
 
     QString mainUsage();
-    QString mainStatus();
-    void dataAdd(QString arg);
-    void dataGet(QString arg);
-    void tableUse(QString arg);
-    int userCreate(QString user);
-    int userJoin(QString tmpuser);
-    int userPasswd(QString key);
-    QByteArray hashkey(QString& key);
-    QString strUser = "tmp";
-    QString strBuffer = "";
+    int dataAdd(QStringList &arg);
+    QStringList dataGet(const QStringList& arg);
+    int tableUse(const QString &table);
+    int tableCreate(const QString &table, const QStringList &fields);
+    int userCreate(const QString &passwd);
+    int userJoin(const QString &passwd);
+    int userPasswd(const QString &key);
+    QByteArray hashkey(const QString &key);
+
+    QString strStatus;
+    int iMaxHit = 6;
+    int iHit = 0;
 
     xsBlowfish* blowfish;
     xsDatabase* database;

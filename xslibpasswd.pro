@@ -8,7 +8,7 @@ QT       += sql
 
 QT       -= gui
 
-TARGET = xslibpasswd
+TARGET = xspasswd
 TEMPLATE = lib
 
 DEFINES += XSLIBPASSWD_LIBRARY
