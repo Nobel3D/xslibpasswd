@@ -2,7 +2,6 @@
 
 #include <QFile>
 #include <QCryptographicHash>
-#include <QDir>
 
 
 xsPasswd::xsPasswd()
@@ -58,21 +57,6 @@ int xsPasswd::tableUse(const QString &table)
 
 int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
 {
-    /*QString newtable;
-    QString newfields;
-    QString formfields;
-    xsConsole() << "New table name ->";
-    xsConsole() >> newtable;
-
-    while(true)
-    {
-        xsConsole() << "New field name (just enter to stop) ->";
-        xsConsole() >> newfields;
-        if(newfields == "")
-            break;
-        formfields.append(newfields.trimmed() + " TEXT,");
-    }
-    */
     QString format;
     for(int i = 0; i < fields.size(); i++)
         format.append(fields.value(i).trimmed() + " TEXT,");
@@ -80,26 +64,32 @@ int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
     if(database->createTable(table, format.left(format.length() - 1)))
         return OK;
 
-    strStatus = "Impossible to create a new database into " + QDir::homePath() + "\n" +
+    strStatus = "Impossible to create a new database into " + HOME + "\n" +
                 database->getMessage() + "\n" + database->getLastQuery();
     return FAIL;
 }
 
+bool xsPasswd::userExists(const QString &strfile)
+{
+    QFileInfo filepw(strfile);
+    return filepw.exists() && filepw.isFile();
+}
+
 int xsPasswd::userCreate(const QString& passwd)
 {
-    QFile newpw(QDir::homePath() + PWFILE);
-    if(newpw.exists())
+    if(userExists(PWFILE))
     {
-        strStatus = "Database on the directory " + QDir::homePath() + " already exists!";
+        strStatus = "User on the directory " + HOME + " already exists!";
         return FAIL;
     }
 
+    QFile filepw(PWFILE);
     QCryptographicHash hasher(QCryptographicHash::Sha512);
     hasher.addData(passwd.toLatin1());
     QByteArray salad = hasher.result();
-    newpw.open(QIODevice::WriteOnly);
-    newpw.write(salad);
-    newpw.close();
+    filepw.open(QIODevice::WriteOnly);
+    filepw.write(salad);
+    filepw.close();
 }
 
 int xsPasswd::userJoin(const QString &passwd)
@@ -108,7 +98,7 @@ int xsPasswd::userJoin(const QString &passwd)
     {
         if(userPasswd(passwd) == OK)
         {
-            database = new xsDatabase(QDir::homePath() + DBFILE);
+            database = new xsDatabase(DBFILE);
             blowfish = new xsBlowfish(passwd);
             return OK;
         }
@@ -119,11 +109,17 @@ int xsPasswd::userJoin(const QString &passwd)
 
 int xsPasswd::userPasswd(const QString& key)
 {
-    QFile readpw(QDir::homePath() + PWFILE);
-    readpw.open(QIODevice::ReadOnly);
-    QByteArray binpw = readpw.readLine();
-    readpw.close();
-    if(binpw == hashkey(key))
+    if(!userExists(PWFILE))
+    {
+        strStatus = "User on the directory " + HOME + " doesn't exist!";
+        return FAIL;
+    }
+
+    QFile filepw(PWFILE);
+    filepw.open(QIODevice::ReadOnly);
+    QByteArray pw = filepw.readLine();
+    filepw.close();
+    if(pw == hashkey(key))
     {
         blowfish = new xsBlowfish(key);
         return OK;
