@@ -22,18 +22,15 @@ public:
     QStringList dataGet(const QStringList& arg);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
-    bool userExists(const QString &strfile);
-    int userCreate(const QString &passwd);
-    int userJoin(const QString &passwd);
-    int userPasswd(const QString &key);
-    QByteArray hashkey(const QString &key);
+    int userCreate(const xsPassword &passwd, const QString &file);
+    int userJoin(const xsPassword &passwd);
+    int loadPassword(const QString &filepw);
 
     QString strStatus;
-    int iMaxHit = 6;
-    int iHit = 0;
 
     xsBlowfish* blowfish;
     xsDatabase* database;
+    xsPassword* password;
 
 };
 

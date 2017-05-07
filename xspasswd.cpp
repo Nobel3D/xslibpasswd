@@ -14,17 +14,18 @@ QString xsPasswd::mainUsage()
            "join <your-home-name>\n"
            "create <your-home-name>\n"
            "use <table-name>\n"
-           "add <value1> <value2>\n"
+           "add <value1> <value2> ...\n"
            "get <field> <value>\n";
 }
 
 
 int xsPasswd::dataAdd(QStringList &arg)
 {
+    QStringList out;
     for(int i = 1; i < arg.size(); i++)
-        arg.replace(i,blowfish->encrypt(arg.value(i).toLatin1()).toHex());
+        out.append(blowfish->encrypt(arg.at(i).toLatin1()).toHex());
 
-    if(!database->addValue(arg))
+    if(!database->addValue(out))
     {
         strStatus = "Impossible to add user or password into " + database->getTable() + "\n" +
                     database->getMessage() + "\n" + database->getLastQuery() + "\n";
@@ -41,6 +42,12 @@ QStringList xsPasswd::dataGet(const QStringList& arg)
         int x = database->findValue(arg.value(1), QString(blowfish->encrypt(arg.value(2).toLatin1()).toHex()));
         for(int i = 1; i < database->getFieldCount(); i++)
             offset.append(blowfish->decrypt(QByteArray::fromHex(database->findValue(i,x).toLatin1())));
+    }
+    if(arg.size() == 2)
+    {
+        offset = database->printColumn(arg.at(1));
+        for(int i = 0; i < offset.size(); i++)
+            offset.replace(i,blowfish->decrypt(QByteArray::fromHex(offset.at(i).toLatin1())));
     }
     return offset;
 }
@@ -69,67 +76,29 @@ int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
     return FAIL;
 }
 
-bool xsPasswd::userExists(const QString &strfile)
+int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
 {
-    QFileInfo filepw(strfile);
-    return filepw.exists() && filepw.isFile();
-}
-
-int xsPasswd::userCreate(const QString& passwd)
-{
-    if(userExists(PWFILE))
-    {
-        strStatus = "User on the directory " + HOME + " already exists!";
-        return FAIL;
-    }
-
-    QFile filepw(PWFILE);
-    QCryptographicHash hasher(QCryptographicHash::Sha512);
-    hasher.addData(passwd.toLatin1());
-    QByteArray salad = hasher.result();
-    filepw.open(QIODevice::WriteOnly);
-    filepw.write(salad);
-    filepw.close();
-}
-
-int xsPasswd::userJoin(const QString &passwd)
-{
-    if(iHit < iMaxHit)
-    {
-        if(userPasswd(passwd) == OK)
-        {
-            database = new xsDatabase(DBFILE);
-            blowfish = new xsBlowfish(passwd);
-            return OK;
-        }
-    }
-    iHit++;
+    if(passwd.Save(file) == OK)
+        return OK;
+    strStatus = "Impossible to save your user in " + file;
     return FAIL;
 }
 
-int xsPasswd::userPasswd(const QString& key)
+int xsPasswd::userJoin(const xsPassword &passwd)
 {
-    if(!userExists(PWFILE))
+    if(password->Check(passwd) == OK)
     {
-        strStatus = "User on the directory " + HOME + " doesn't exist!";
-        return FAIL;
-    }
-
-    QFile filepw(PWFILE);
-    filepw.open(QIODevice::ReadOnly);
-    QByteArray pw = filepw.readLine();
-    filepw.close();
-    if(pw == hashkey(key))
-    {
-        blowfish = new xsBlowfish(key);
+        database = new xsDatabase(DBFILE);
+        blowfish = new xsBlowfish(passwd.getClearPassword());
         return OK;
     }
     return FAIL;
 }
 
-QByteArray xsPasswd::hashkey(const QString& key)
+
+int xsPasswd::loadPassword(const QString& filepw)
 {
-    QCryptographicHash hasher(QCryptographicHash::Sha512);
-    hasher.addData(key.toLatin1());
-    return hasher.result();
+    password = new xsPassword();
+    QFile loading(filepw);
+    return password->Load(loading);
 }
