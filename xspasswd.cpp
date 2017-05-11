@@ -76,6 +76,11 @@ int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
     return FAIL;
 }
 
+QStringList xsPasswd::tableList()
+{
+    return database->getTables();
+}
+
 int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
 {
     if(passwd.Save(file) == OK)

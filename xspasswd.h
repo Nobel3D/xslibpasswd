@@ -11,7 +11,7 @@
 
 #include "xspasswd_global.h"
 
-class XSPASSWDSHARED_EXPORT xsPasswd
+class XSPASSWDSHARED_EXPORT xsPasswd : public xsObject
 {
 
 public:
@@ -22,11 +22,10 @@ public:
     QStringList dataGet(const QStringList& arg);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
+    QStringList tableList();
     int userCreate(const xsPassword &passwd, const QString &file);
     int userJoin(const xsPassword &passwd);
     int loadPassword(const QString &filepw);
-
-    QString strStatus;
 
     xsBlowfish* blowfish;
     xsDatabase* database;
