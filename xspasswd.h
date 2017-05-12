@@ -20,6 +20,7 @@ public:
     QString mainUsage();
     int dataAdd(QStringList &arg);
     QStringList dataGet(const QStringList& arg);
+    int dataUpdate(const QStringList& arg);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
     QStringList tableList();

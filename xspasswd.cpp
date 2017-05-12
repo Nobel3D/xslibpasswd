@@ -52,6 +52,31 @@ QStringList xsPasswd::dataGet(const QStringList& arg)
     return offset;
 }
 
+int xsPasswd::dataUpdate(const QStringList &arg)
+{
+    bool ok;
+    int value = arg.at(3).toInt(&ok);
+    if (!ok)
+    {
+        if(!database->updateValue(arg.at(1), blowfish->encrypt(arg.at(2).toLatin1()).toHex(),
+                                 QString(blowfish->encrypt(arg.at(3).toLatin1()).toHex())))
+        {
+            strStatus = database->getMessage() + endl + database->getLastQuery();
+            return FAIL;
+        }
+        return OK;
+    }
+    else
+    {
+        if(!database->updateValue(arg.at(1), blowfish->encrypt(arg.at(2).toLatin1()).toHex(), value))
+        {
+            strStatus = database->getMessage() + endl + database->getLastQuery();
+            return FAIL;
+        }
+        return OK;
+    }
+}
+
 int xsPasswd::tableUse(const QString &table)
 {
     if(!database->useTable(table))
@@ -72,7 +97,7 @@ int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
         return OK;
 
     strStatus = "Impossible to create a new database into " + HOME + "\n" +
-                database->getMessage() + "\n" + database->getLastQuery();
+                database->getMessage() + endl + database->getLastQuery();
     return FAIL;
 }
 
