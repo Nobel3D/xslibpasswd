@@ -27,6 +27,7 @@ public:
     int userCreate(const xsPassword &passwd, const QString &file);
     int userJoin(const xsPassword &passwd);
     int loadPassword(const QString &filepw);
+    QString generatePassword(const QStringList &arg);
 
     xsBlowfish* blowfish;
     xsDatabase* database;

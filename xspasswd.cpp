@@ -132,3 +132,16 @@ int xsPasswd::loadPassword(const QString& filepw)
     QFile loading(filepw);
     return password->Load(loading);
 }
+
+QString xsPasswd::generatePassword(const QStringList &arg)
+{
+    if(arg.count() < 2)
+        return "";
+
+    bool ok;
+    int value = arg.at(1).toInt(&ok);
+    if(ok)
+        return xsPassword::pwGenerate(value);
+    else
+        return "";
+}
