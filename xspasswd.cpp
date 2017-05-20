@@ -108,7 +108,7 @@ QStringList xsPasswd::tableList()
 
 int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
 {
-    if(passwd.Save(file) == OK)
+    if(passwd.Save(file))
         return OK;
     strStatus = "Impossible to save your user in " + file;
     return FAIL;
@@ -116,7 +116,7 @@ int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
 
 int xsPasswd::userJoin(const xsPassword &passwd)
 {
-    if(password->Check(passwd) == OK)
+    if(password->Check(passwd))
     {
         database = new xsDatabase(DBFILE);
         blowfish = new xsBlowfish(passwd.getClearPassword());
@@ -135,13 +135,27 @@ int xsPasswd::loadPassword(const QString& filepw)
 
 QString xsPasswd::generatePassword(const QStringList &arg)
 {
-    if(arg.count() < 2)
+    bool symbols = false, spaces = false, unicode = false, numbers = false, lowers = false, uppers = false, ok = false;
+    int length = arg.at(1).toInt(&ok);
+    if(arg.count() < 2 || !ok)
         return "";
+    if(arg.contains("sym", Qt::CaseInsensitive))
+        symbols = true;
+    if(arg.contains("space", Qt::CaseInsensitive))
+        spaces = true;
+    if(arg.contains("uni", Qt::CaseInsensitive))
+        unicode = true;
+    if(arg.contains("num", Qt::CaseInsensitive))
+        numbers = true;
+    if(arg.contains("low", Qt::CaseInsensitive))
+         lowers = true;
+    if(arg.contains("up", Qt::CaseInsensitive))
+         uppers = true;
 
-    bool ok;
-    int value = arg.at(1).toInt(&ok);
-    if(ok)
-        return xsPassword::pwGenerate(value);
+    if(arg.count() == 2)
+        return xsPassword::generate(length);
+    else if(unicode)
+        return xsPassword::generate(length, symbols, spaces, true);
     else
-        return "";
+        return xsPassword::generate(length, symbols, spaces, false, numbers, lowers, uppers);
 }
