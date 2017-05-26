@@ -8,17 +8,6 @@ xsPasswd::xsPasswd()
 {
 }
 
-QString xsPasswd::mainUsage()
-{
-    return "Usage:\n"
-           "join <your-home-name>\n"
-           "create <your-home-name>\n"
-           "use <table-name>\n"
-           "add <value1> <value2> ...\n"
-           "get <field> <value>\n";
-}
-
-
 int xsPasswd::dataAdd(QStringList &arg)
 {
     QStringList out;
@@ -43,7 +32,7 @@ QStringList xsPasswd::dataGet(const QStringList& arg)
         for(int i = 1; i < database->getFieldCount(); i++)
             offset.append(blowfish->decrypt(QByteArray::fromHex(database->findValue(i,x).toLatin1())));
     }
-    if(arg.size() == 2)
+    else if(arg.size() == 2)
     {
         offset = database->printColumn(arg.at(1));
         for(int i = 0; i < offset.size(); i++)
@@ -106,6 +95,16 @@ QStringList xsPasswd::tableList()
     return database->getTables();
 }
 
+QStringList xsPasswd::tableField()
+{
+    return database->getFieldsList();
+}
+
+bool xsPasswd::tableActive()
+{
+    return !database->getTable().isEmpty();
+}
+
 int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
 {
     if(passwd.Save(file) == OK)
@@ -141,7 +140,7 @@ QString xsPasswd::generatePassword(const QStringList &arg)
     bool ok;
     int value = arg.at(1).toInt(&ok);
     if(ok)
-        return xsPassword::pwGenerate(value);
+        return xsPassword::generate(value);
     else
         return "";
 }
