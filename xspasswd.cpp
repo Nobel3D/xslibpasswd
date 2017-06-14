@@ -23,23 +23,35 @@ int xsPasswd::dataAdd(QStringList &arg)
     return OK;
 }
 
-QStringList xsPasswd::dataGet(const QStringList& arg)
+QStringList xsPasswd::dataGet(const QString& field, const QString& value)
 {
     QStringList offset;
-    if(arg.size() == 3)
-    {
-        int x = database->findValue(arg.value(1), QString(blowfish->encrypt(arg.value(2).toLatin1()).toHex()));
-        for(int i = 1; i < database->getFieldCount(); i++)
-            offset.append(blowfish->decrypt(QByteArray::fromHex(database->findValue(i,x).toLatin1())));
-    }
-    else if(arg.size() == 2)
-    {
-        offset = database->printColumn(arg.at(1));
-        for(int i = 0; i < offset.size(); i++)
-            offset.replace(i,blowfish->decrypt(QByteArray::fromHex(offset.at(i).toLatin1())));
-    }
+
+    int x = database->findValue(field, QString(blowfish->encrypt(value.toLatin1()).toHex()));
+    for(int i = 1; i < database->getFieldCount(); i++)
+        offset.append(blowfish->decrypt(QByteArray::fromHex(database->findValue(i,x).toLatin1())));
+
     return offset;
 }
+
+QStringList xsPasswd::dataGet(const QString& field)
+{
+    QStringList offset;
+
+    offset = database->printColumn(field);
+    for(int i = 0; i < offset.size(); i++)
+        offset.replace(i,blowfish->decrypt(QByteArray::fromHex(offset.at(i).toLatin1())));
+
+    return offset;
+}
+
+QStringList xsPasswd::dataGet()
+{
+    QStringList offset;
+    //TODO!
+    return offset;
+}
+
 
 int xsPasswd::dataUpdate(const QStringList &arg)
 {
@@ -138,13 +150,7 @@ QString xsPasswd::generatePassword(const QStringList &arg)
     int length = arg.at(1).toInt(&ok);
     if(arg.count() < 2 || !ok)
         return "";
-<<<<<<< HEAD
 
-    bool ok;
-    int value = arg.at(1).toInt(&ok);
-    if(ok)
-        return xsPassword::generate(value);
-=======
     if(arg.contains("sym", Qt::CaseInsensitive))
         symbols = true;
     if(arg.contains("space", Qt::CaseInsensitive))
@@ -162,7 +168,6 @@ QString xsPasswd::generatePassword(const QStringList &arg)
         return xsPassword::generate(length);
     else if(unicode)
         return xsPassword::generate(length, symbols, spaces, true);
->>>>>>> 66c7fe0d017b0d1544cdc58f51809c66829f0ec4
     else
         return xsPassword::generate(length, symbols, spaces, false, numbers, lowers, uppers);
 }

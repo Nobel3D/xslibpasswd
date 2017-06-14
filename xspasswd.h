@@ -18,7 +18,9 @@ public:
     xsPasswd();
 
     int dataAdd(QStringList &arg);
-    QStringList dataGet(const QStringList& arg);
+    QStringList dataGet(const QString& field, const QString& value);
+    QStringList dataGet(const QString& field);
+    QStringList dataGet();
     int dataUpdate(const QStringList& arg);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
