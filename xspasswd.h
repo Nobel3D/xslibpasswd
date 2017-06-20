@@ -20,7 +20,7 @@ public:
     int dataAdd(QStringList &arg);
     QStringList dataGet(const QString& field, const QString& value);
     QStringList dataGet(const QString& field);
-    QStringList dataGet();
+    QStringList dataGet(int row);
     int dataUpdate(const QStringList& arg);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
@@ -31,6 +31,11 @@ public:
     int userJoin(const xsPassword &passwd);
     int loadPassword(const QString &filepw);
     QString generatePassword(const QStringList &arg);
+
+    QVariant decode(const QVariant& encoded);
+    QVariant encode(const QVariant& decoded);
+
+    QStringList convert(const QList<QVariant>& data);
 
     xsBlowfish* blowfish;
     xsDatabase* database;

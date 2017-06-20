@@ -10,9 +10,9 @@ xsPasswd::xsPasswd()
 
 int xsPasswd::dataAdd(QStringList &arg)
 {
-    QStringList out;
+    QList<QVariant> out;
     for(int i = 1; i < arg.size(); i++)
-        out.append(blowfish->encrypt(arg.at(i).toLatin1()).toHex());
+        out.append(QString(blowfish->encrypt(arg.at(i).toLatin1()).toHex()));
 
     if(!database->addValue(out))
     {
@@ -27,29 +27,31 @@ QStringList xsPasswd::dataGet(const QString& field, const QString& value)
 {
     QStringList offset;
 
-    int x = database->findValue(field, QString(blowfish->encrypt(value.toLatin1()).toHex()));
+    int x = database->findValue(field, encode(value));
     for(int i = 1; i < database->getFieldCount(); i++)
-        offset.append(blowfish->decrypt(QByteArray::fromHex(database->findValue(i,x).toLatin1())));
+        offset.append(decode(database->findValue(i,x)).toString());
 
     return offset;
 }
 
 QStringList xsPasswd::dataGet(const QString& field)
 {
-    QStringList offset;
+    QList<QVariant> offset;
 
-    offset = database->printColumn(field);
+    offset = database->getColumn(field);
     for(int i = 0; i < offset.size(); i++)
-        offset.replace(i,blowfish->decrypt(QByteArray::fromHex(offset.at(i).toLatin1())));
+        offset.replace(i,decode(offset.at(i)));
 
-    return offset;
+    return convert(offset);
 }
 
-QStringList xsPasswd::dataGet()
+QStringList xsPasswd::dataGet(int row)
 {
-    QStringList offset;
-    //TODO!
-    return offset;
+    X_PARAMS(row < 0);
+    QList<QVariant> offset = database->getRow(row);
+    for(int i = 0; i < offset.size(); i++)
+        offset.replace(i,decode(offset.at(i)));
+    return convert(offset);
 }
 
 
@@ -109,7 +111,7 @@ QStringList xsPasswd::tableList()
 
 QStringList xsPasswd::tableField()
 {
-    return database->getFieldsList();
+    return database->getFields();
 }
 
 bool xsPasswd::tableActive()
@@ -170,4 +172,22 @@ QString xsPasswd::generatePassword(const QStringList &arg)
         return xsPassword::generate(length, symbols, spaces, true);
     else
         return xsPassword::generate(length, symbols, spaces, false, numbers, lowers, uppers);
+}
+
+QVariant xsPasswd::decode(const QVariant& encoded)
+{
+    return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toLatin1())));
+}
+
+QVariant xsPasswd::encode(const QVariant& decoded)
+{
+    return QString(blowfish->encrypt(decoded.toString().toLatin1()).toHex());
+}
+
+QStringList xsPasswd::convert(const QList<QVariant>& data)
+{
+    QStringList out;
+    for(int i = 0; i < data.count(); i++)
+        out.append(data.at(i).toString());
+    return out;
 }
