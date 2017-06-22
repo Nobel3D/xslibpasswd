@@ -176,7 +176,10 @@ QString xsPasswd::generatePassword(const QStringList &arg)
 
 QVariant xsPasswd::decode(const QVariant& encoded)
 {
-    return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toLatin1())));
+    if (encoded.type() == QVariant::String)
+        return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toLatin1())));
+    else
+        return encoded;
 }
 
 QVariant xsPasswd::encode(const QVariant& decoded)
@@ -191,3 +194,4 @@ QStringList xsPasswd::convert(const QList<QVariant>& data)
         out.append(data.at(i).toString());
     return out;
 }
+
