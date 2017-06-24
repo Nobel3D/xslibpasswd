@@ -47,8 +47,8 @@ QStringList xsPasswd::dataGet(const QString& field)
 
 QStringList xsPasswd::dataGet(int row)
 {
-    X_PARAMS(row < 0);
-    QList<QVariant> offset = database->getRow(row);
+    X_PARAMS(row < 1);
+    QList<QVariant> offset(database->getRow(row));
     for(int i = 0; i < offset.size(); i++)
         offset.replace(i,decode(offset.at(i)));
     return convert(offset);
