@@ -16,7 +16,7 @@ int xsPasswd::dataAdd(QStringList &arg)
 
     if(!database->addValue(out))
     {
-        strStatus = "Impossible to add user or password into " + database->getTable() + "\n" +
+        strStatus = "Impossible to add some value into " + database->getTable() + "\n" +
                     database->getMessage() + "\n" + database->getLastQuery() + "\n";
         return FAIL;
     }
@@ -27,9 +27,11 @@ QStringList xsPasswd::dataGet(const QString& field, const QString& value)
 {
     QStringList offset;
 
-    int x = database->findValue(field, encode(value));
+    int x = database->findValue(database->getField(field), encode(value));
+    if(x < 0)
+        return offset;
     for(int i = 1; i < database->getFieldCount(); i++)
-        offset.append(decode(database->findValue(i,x)).toString());
+        offset.append(decode(database->findValue(database->getField(i),x)).toString());
 
     return offset;
 }
@@ -38,7 +40,7 @@ QStringList xsPasswd::dataGet(const QString& field)
 {
     QList<QVariant> offset;
 
-    offset = database->getColumn(field);
+    offset = database->getColumn(database->getField(field));
     for(int i = 0; i < offset.size(); i++)
         offset.replace(i,decode(offset.at(i)));
 
@@ -61,17 +63,17 @@ int xsPasswd::dataUpdate(const QStringList &arg)
     int value = arg.at(3).toInt(&ok);
     if (!ok)
     {
-        if(!database->updateValue(arg.at(1), blowfish->encrypt(arg.at(2).toLatin1()).toHex(),
+        if(!database->updateValue(database->getField(arg.at(1)), QString(blowfish->encrypt(arg.at(2).toLatin1()).toHex()),
                                  QString(blowfish->encrypt(arg.at(3).toLatin1()).toHex())))
         {
-            strStatus = database->getMessage() + endl + database->getLastQuery();
+            qDebug() << database->getMessage() << endl << database->getLastQuery();
             return FAIL;
         }
         return OK;
     }
     else
     {
-        if(!database->updateValue(arg.at(1), blowfish->encrypt(arg.at(2).toLatin1()).toHex(), value))
+        if(!database->updateValue(database->getField(arg.at(1)), blowfish->encrypt(arg.at(2).toLatin1()).toHex(), value))
         {
             strStatus = database->getMessage() + endl + database->getLastQuery();
             return FAIL;
@@ -92,11 +94,14 @@ int xsPasswd::tableUse(const QString &table)
 
 int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
 {
-    QString format;
-    for(int i = 0; i < fields.size(); i++)
-        format.append(fields.value(i).trimmed() + " TEXT,");
+    QList<QSqlField> format;
 
-    if(database->createTable(table, format.left(format.length() - 1)))
+    format.append(QSqlField("id", QVariant::LongLong));
+
+    for(int i = 0; i < fields.size(); i++)
+        format.append(QSqlField(fields.at(i), QVariant::String));
+
+    if(database->createTable(table, format))
         return OK;
 
     strStatus = "Impossible to create a new database into " + HOME + "\n" +
