@@ -23,6 +23,23 @@ int xsPasswd::dataAdd(QStringList &arg)
     return OK;
 }
 
+int xsPasswd::dataAdd(const QStringList &fields, const QStringList &values)
+{
+    int count = fields.count();
+    if(count != values.count())
+        return FAIL;
+
+    QList<QSqlField> fieldlist;
+    QList<QVariant> valuelist;
+
+    for(int i = 0; i < count; i++)
+    {
+        fieldlist.append(database->getField(fields.at(i)));
+        valuelist.append(QString(blowfish->encrypt(values.at(i).toLatin1()).toHex()));
+    }
+    database->addValue(fieldlist, valuelist);
+}
+
 QStringList xsPasswd::dataGet(const QString& field, const QString& value)
 {
     QStringList offset;
@@ -57,29 +74,35 @@ QStringList xsPasswd::dataGet(int row)
 }
 
 
-int xsPasswd::dataUpdate(const QStringList &arg)
+int xsPasswd::dataUpdate(const QString &field, const QString &oldvalue, const QString &newvalue)
 {
-    bool ok;
-    int value = arg.at(3).toInt(&ok);
-    if (!ok)
+    if(!database->updateValue(database->getField(field), QString(blowfish->encrypt(oldvalue.toLatin1()).toHex()),
+                                 QString(blowfish->encrypt(newvalue.toLatin1()).toHex())))
     {
-        if(!database->updateValue(database->getField(arg.at(1)), QString(blowfish->encrypt(arg.at(2).toLatin1()).toHex()),
-                                 QString(blowfish->encrypt(arg.at(3).toLatin1()).toHex())))
-        {
-            qDebug() << database->getMessage() << endl << database->getLastQuery();
-            return FAIL;
-        }
-        return OK;
+        qDebug() << database->getMessage() << endl << database->getLastQuery();
+        return FAIL;
     }
-    else
+    return OK;
+}
+
+int xsPasswd::dataUpdate(const QString &field, const QString &newvalue, int id)
+{
+    if(!database->updateValue(database->getField(field), QString(blowfish->encrypt(newvalue.toLatin1()).toHex()), id))
     {
-        if(!database->updateValue(database->getField(arg.at(1)), blowfish->encrypt(arg.at(2).toLatin1()).toHex(), value))
-        {
-            strStatus = database->getMessage() + endl + database->getLastQuery();
-            return FAIL;
-        }
-        return OK;
+        strStatus = database->getMessage() + endl + database->getLastQuery();
+        return FAIL;
     }
+    return OK;
+}
+
+bool xsPasswd::dataDelete(qlonglong id)
+{
+    if(!database->removeValue(QSqlField("id", QVariant::LongLong), QVariant(id)))
+    {
+        qDebug() << database->getMessage() << endl << database->getLastQuery();
+        return false;
+    }
+    return true;
 }
 
 int xsPasswd::tableUse(const QString &table)
