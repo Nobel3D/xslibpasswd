@@ -35,7 +35,10 @@ int xsPasswd::dataAdd(const QStringList &fields, const QStringList &values)
     for(int i = 0; i < count; i++)
     {
         fieldlist.append(database->getField(fields.at(i)));
-        valuelist.append(QString(blowfish->encrypt(values.at(i).toLatin1()).toHex()));
+        if(fieldlist.at(i).type() == QVariant::String)
+            valuelist.append(QString(blowfish->encrypt(values.at(i).toLatin1()).toHex()));
+        else
+            valuelist.append(values.at(i));
     }
     database->addValue(fieldlist, valuelist);
 }
@@ -66,7 +69,6 @@ QStringList xsPasswd::dataGet(const QString& field)
 
 QStringList xsPasswd::dataGet(int row)
 {
-    X_PARAMS(row < 1);
     QList<QVariant> offset(database->getRow(row));
     for(int i = 0; i < offset.size(); i++)
         offset.replace(i,decode(offset.at(i)));
@@ -139,7 +141,11 @@ QStringList xsPasswd::tableList()
 
 QStringList xsPasswd::tableField()
 {
-    return database->getFields();
+    QStringList offset;
+    QList<QSqlField> buffer = database->getFields();
+    for(int i = 0; i < buffer.count(); i++)
+        offset.append(buffer.at(i).name());
+    return offset;
 }
 
 bool xsPasswd::tableActive()
@@ -223,3 +229,61 @@ QStringList xsPasswd::convert(const QList<QVariant>& data)
     return out;
 }
 
+bool xsPasswd::exportTable(const QString &dir)
+{
+    X_PARAMS(dir.isEmpty());
+
+    QStringList buffer;
+    QFile file(dir);
+    file.open(QFile::WriteOnly);
+    file.write(database->format(database->getFields()).toLatin1() + "\n");
+
+    for(int i = 0; i < database->getRecordCount() + 1; i++)
+    {
+        buffer = dataGet(i);
+        for(int column = 0; column < buffer.count(); column++)
+            file.write(buffer.at(column).toLatin1() + ",");
+        file.write("\n");
+    }
+    file.close();
+    return true;
+}
+
+bool xsPasswd::exportDatabase(const QString &dir)
+{
+    database->Export(dir);
+}
+
+bool xsPasswd::importTable(const QString &name, const QString &dir)
+{
+    X_PARAMS(dir.isEmpty());
+
+    QString oldTable = database->getTable();
+    QFile file(dir);
+    file.open(QFile::ReadOnly);
+    QStringList header = QString(file.readLine()).split(','); //first row (name field and type)
+    header.removeFirst();
+    header.last().replace('\n',"");
+    if(!tableCreate(name,header))
+        return false;
+
+    tableUse(name);
+
+    QStringList values;
+    while(file.bytesAvailable())
+    {
+        values = QString(file.readLine()).split(',');
+        values.removeLast();
+        if(!dataAdd(tableField(), values))
+            qDebug() << database->getLastQuery() << "\n" << database->getMessage();
+        values.clear();
+    }
+    tableUse(oldTable);
+    file.close();
+    return true;
+}
+
+bool xsPasswd::importDatabase(const QString &name, const QString &dir)
+{
+
+}
