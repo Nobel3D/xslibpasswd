@@ -41,9 +41,9 @@ public:
     QStringList convert(const QList<QVariant>& data);
 
     bool exportTable(const QString &dir);
-    bool exportDatabase(const QString &dir);
+    bool exportDatabase(const QDir &dir);
     bool importTable(const QString &name, const QString &dir);
-    bool importDatabase(const QString &name, const QString &dir);
+    bool importDatabase(const QFileInfoList &dir);
 
     xsBlowfish* blowfish;
     xsDatabase* database;

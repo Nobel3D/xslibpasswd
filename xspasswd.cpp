@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QCryptographicHash>
+#include <QFileInfoList>
 
 
 xsPasswd::xsPasswd()
@@ -249,9 +250,14 @@ bool xsPasswd::exportTable(const QString &dir)
     return true;
 }
 
-bool xsPasswd::exportDatabase(const QString &dir)
+bool xsPasswd::exportDatabase(const QDir &dir)
 {
-    database->Export(dir);
+    QStringList tables = database->getTables();
+    for(int i = 0; i < tables.count(); i++)
+    {
+        database->useTable(tables.at(i));
+        exportTable(dir.path() + "/" + tables.at(i) + ".csv");
+    }
 }
 
 bool xsPasswd::importTable(const QString &name, const QString &dir)
@@ -283,7 +289,8 @@ bool xsPasswd::importTable(const QString &name, const QString &dir)
     return true;
 }
 
-bool xsPasswd::importDatabase(const QString &name, const QString &dir)
+bool xsPasswd::importDatabase(const QFileInfoList &dir)
 {
-
+    for(int i = 0; i < dir.count(); i++)
+        importTable(dir.at(i).completeBaseName(), dir.at(i).absoluteFilePath());
 }
