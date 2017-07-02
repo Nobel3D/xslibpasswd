@@ -1,0 +1,32 @@
+#!/bin/bash
+
+INCLUDEPATH="/usr/include/libStronghold"
+LIBPATH="/usr/lib"
+BIN="libstronghold.so.1.0.0"
+BIN2="libstronghold.so.1.0"
+BIN3="libstronghold.so.1"
+BIN4="libstronghold.so"
+BUILDDIR="$PWD/../bin"
+
+qmake libstronghold.pro -spec linux-g++
+make
+
+if [ "$1" ==  "-dev" ]
+then
+    mv libstronghold.so* $BUILDDIR
+    ln -s $BUILDDIR/$BIN $LIBPATH/
+else
+    mv $BIN $LIBPATH/
+fi
+
+ln -s $LIBPATH/$BIN $LIBPATH/$BIN2
+ln -s $LIBPATH/$BIN $LIBPATH/$BIN3
+ln -s $LIBPATH/$BIN $LIBPATH/$BIN4
+
+if [ "$1" ==  "-dev" ]
+then
+    ln -s $PWD/ $INCLUDEPATH
+else
+    mkdir $INCLUDEPATH
+    cp -r $PWD/*.h $INCLUDEPATH
+fi

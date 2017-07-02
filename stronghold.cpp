@@ -1,15 +1,16 @@
-#include "xspasswd.h"
+#include "stronghold.h"
 
 #include <QFile>
 #include <QCryptographicHash>
 #include <QFileInfoList>
 
 
-xsPasswd::xsPasswd()
+Stronghold::Stronghold(const QString &manager)
 {
+    login = new Login(manager);
 }
 
-int xsPasswd::dataAdd(QStringList &arg)
+int Stronghold::dataAdd(QStringList &arg)
 {
     QList<QVariant> out;
     for(int i = 1; i < arg.size(); i++)
@@ -24,7 +25,7 @@ int xsPasswd::dataAdd(QStringList &arg)
     return OK;
 }
 
-int xsPasswd::dataAdd(const QStringList &fields, const QStringList &values)
+int Stronghold::dataAdd(const QStringList &fields, const QStringList &values)
 {
     int count = fields.count();
     if(count != values.count())
@@ -44,7 +45,7 @@ int xsPasswd::dataAdd(const QStringList &fields, const QStringList &values)
     database->addValue(fieldlist, valuelist);
 }
 
-QStringList xsPasswd::dataGet(const QString& field, const QString& value)
+QStringList Stronghold::dataGet(const QString& field, const QString& value)
 {
     QStringList offset;
 
@@ -57,7 +58,7 @@ QStringList xsPasswd::dataGet(const QString& field, const QString& value)
     return offset;
 }
 
-QStringList xsPasswd::dataGet(const QString& field)
+QStringList Stronghold::dataGet(const QString& field)
 {
     QList<QVariant> offset;
 
@@ -68,7 +69,7 @@ QStringList xsPasswd::dataGet(const QString& field)
     return convert(offset);
 }
 
-QStringList xsPasswd::dataGet(int row)
+QStringList Stronghold::dataGet(int row)
 {
     QList<QVariant> offset(database->getRow(row));
     for(int i = 0; i < offset.size(); i++)
@@ -77,7 +78,7 @@ QStringList xsPasswd::dataGet(int row)
 }
 
 
-int xsPasswd::dataUpdate(const QString &field, const QString &oldvalue, const QString &newvalue)
+int Stronghold::dataUpdate(const QString &field, const QString &oldvalue, const QString &newvalue)
 {
     if(!database->updateValue(database->getField(field), QString(blowfish->encrypt(oldvalue.toLatin1()).toHex()),
                                  QString(blowfish->encrypt(newvalue.toLatin1()).toHex())))
@@ -88,7 +89,7 @@ int xsPasswd::dataUpdate(const QString &field, const QString &oldvalue, const QS
     return OK;
 }
 
-int xsPasswd::dataUpdate(const QString &field, const QString &newvalue, int id)
+int Stronghold::dataUpdate(const QString &field, const QString &newvalue, int id)
 {
     if(!database->updateValue(database->getField(field), QString(blowfish->encrypt(newvalue.toLatin1()).toHex()), id))
     {
@@ -98,7 +99,7 @@ int xsPasswd::dataUpdate(const QString &field, const QString &newvalue, int id)
     return OK;
 }
 
-bool xsPasswd::dataDelete(qlonglong id)
+bool Stronghold::dataDelete(qlonglong id)
 {
     if(!database->removeValue(QSqlField("id", QVariant::LongLong), QVariant(id)))
     {
@@ -108,7 +109,7 @@ bool xsPasswd::dataDelete(qlonglong id)
     return true;
 }
 
-int xsPasswd::tableUse(const QString &table)
+int Stronghold::tableUse(const QString &table)
 {
     if(!database->useTable(table))
     {
@@ -118,7 +119,7 @@ int xsPasswd::tableUse(const QString &table)
     return OK;
 }
 
-int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
+int Stronghold::tableCreate(const QString &table, const QStringList &fields)
 {
     QList<QSqlField> format;
 
@@ -130,17 +131,15 @@ int xsPasswd::tableCreate(const QString &table, const QStringList &fields)
     if(database->createTable(table, format))
         return OK;
 
-    strStatus = "Impossible to create a new database into " + HOME + "\n" +
-                database->getMessage() + endl + database->getLastQuery();
     return FAIL;
 }
 
-QStringList xsPasswd::tableList()
+QStringList Stronghold::tableList()
 {
     return database->getTables();
 }
 
-QStringList xsPasswd::tableField()
+QStringList Stronghold::tableField()
 {
     QStringList offset;
     QList<QSqlField> buffer = database->getFields();
@@ -149,39 +148,32 @@ QStringList xsPasswd::tableField()
     return offset;
 }
 
-bool xsPasswd::tableActive()
+bool Stronghold::tableActive()
 {
     return !database->getTable().isEmpty();
 }
 
-int xsPasswd::userCreate(const xsPassword& passwd, const QString &file)
+bool Stronghold::userCreate(const QString &name, const xsPassword& passwd, const QString &file)
 {
-    if(passwd.Save(file))
-        return OK;
-    strStatus = "Impossible to save your user in " + file;
-    return FAIL;
+    if(login->userAdd(name, passwd, file, 0)) //TODO: CHANGE LEVEL
+        return true;
+    else
+        return false;
 }
 
-int xsPasswd::userJoin(const xsPassword &passwd)
+bool Stronghold::userJoin(const QString &user, QString &passwd)
 {
-    if(password->Check(passwd))
+    QString dbfile = login->login(user, xsPassword(passwd));
+    if(!dbfile.isEmpty())
     {
-        database = new xsDatabase(DBFILE);
-        blowfish = new xsBlowfish(passwd.getClearPassword());
-        return OK;
+        database = new xsDatabase(dbfile);
+        blowfish = new xsBlowfish(passwd);
+        return true;
     }
-    return FAIL;
+    return false;
 }
 
-
-int xsPasswd::loadPassword(const QString& filepw)
-{
-    password = new xsPassword();
-    QFile loading(filepw);
-    return password->Load(loading);
-}
-
-QString xsPasswd::generatePassword(const QStringList &arg)
+QString Stronghold::generatePassword(const QStringList &arg)
 {
     bool symbols = false, spaces = false, unicode = false, numbers = false, lowers = false, uppers = false, ok = false;
     int length = arg.at(1).toInt(&ok);
@@ -209,7 +201,7 @@ QString xsPasswd::generatePassword(const QStringList &arg)
         return xsPassword::generate(length, symbols, spaces, false, numbers, lowers, uppers);
 }
 
-QVariant xsPasswd::decode(const QVariant& encoded)
+QVariant Stronghold::decode(const QVariant& encoded)
 {
     if (encoded.type() == QVariant::String)
         return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toLatin1())));
@@ -217,12 +209,12 @@ QVariant xsPasswd::decode(const QVariant& encoded)
         return encoded;
 }
 
-QVariant xsPasswd::encode(const QVariant& decoded)
+QVariant Stronghold::encode(const QVariant& decoded)
 {
     return QString(blowfish->encrypt(decoded.toString().toLatin1()).toHex());
 }
 
-QStringList xsPasswd::convert(const QList<QVariant>& data)
+QStringList Stronghold::convert(const QList<QVariant>& data)
 {
     QStringList out;
     for(int i = 0; i < data.count(); i++)
@@ -230,7 +222,7 @@ QStringList xsPasswd::convert(const QList<QVariant>& data)
     return out;
 }
 
-bool xsPasswd::exportTable(const QString &dir)
+bool Stronghold::exportTable(const QString &dir)
 {
     X_PARAMS(dir.isEmpty());
 
@@ -250,7 +242,7 @@ bool xsPasswd::exportTable(const QString &dir)
     return true;
 }
 
-bool xsPasswd::exportDatabase(const QDir &dir)
+bool Stronghold::exportDatabase(const QDir &dir)
 {
     QStringList tables = database->getTables();
     for(int i = 0; i < tables.count(); i++)
@@ -260,7 +252,7 @@ bool xsPasswd::exportDatabase(const QDir &dir)
     }
 }
 
-bool xsPasswd::importTable(const QString &name, const QString &dir)
+bool Stronghold::importTable(const QString &name, const QString &dir)
 {
     X_PARAMS(dir.isEmpty());
 
@@ -289,7 +281,7 @@ bool xsPasswd::importTable(const QString &name, const QString &dir)
     return true;
 }
 
-bool xsPasswd::importDatabase(const QFileInfoList &dir)
+bool Stronghold::importDatabase(const QFileInfoList &dir)
 {
     for(int i = 0; i < dir.count(); i++)
         importTable(dir.at(i).completeBaseName(), dir.at(i).absoluteFilePath());

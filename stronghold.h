@@ -1,21 +1,14 @@
-#ifndef XSLIBPASSWD_H
-#define XSLIBPASSWD_H
+#ifndef STRONGHOLD_H
+#define STRONGHOLD_H
 
-#include <QString>
-#include <QDir>
-#include <xslib/xslib.h>
+#include "stronghold_global.h"
+#include "login.h"
 
-#define HOME QDir::homePath()
-#define PWFILE HOME + "/.xspasswd"
-#define DBFILE HOME + "/.xsdata.db"
-
-#include "xspasswd_global.h"
-
-class XSPASSWDSHARED_EXPORT xsPasswd : public xsObject
+class STRONGHOLDSHARED_EXPORT Stronghold : public xsObject
 {
 
 public:
-    xsPasswd();
+    Stronghold(const QString &manager);
 
     int dataAdd(QStringList &arg);
     int dataAdd(const QStringList &fields, const QStringList &values);
@@ -30,9 +23,8 @@ public:
     QStringList tableList();
     QStringList tableField();
     bool tableActive();
-    int userCreate(const xsPassword &passwd, const QString &file);
-    int userJoin(const xsPassword &passwd);
-    int loadPassword(const QString &filepw);
+    bool userCreate(const QString &name, const xsPassword &passwd, const QString &file);
+    bool userJoin(const QString &user, QString &passwd);
     QString generatePassword(const QStringList &arg);
 
     QVariant decode(const QVariant& encoded);
@@ -47,8 +39,9 @@ public:
 
     xsBlowfish* blowfish;
     xsDatabase* database;
-    xsPassword* password;
+
+    Login* login;
 
 };
 
-#endif // XSLIBPASSWD_H
+#endif // STRONGHOLD_H
