@@ -24,7 +24,7 @@ public:
     QStringList tableField();
     bool tableActive();
     bool userCreate(const QString &name, const xsPassword &passwd, const QString &file);
-    bool userJoin(const QString &user, QString &passwd);
+    bool userJoin(const QString &user, const QString &passwd);
     QString generatePassword(const QStringList &arg);
 
     QVariant decode(const QVariant& encoded);

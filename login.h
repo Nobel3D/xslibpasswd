@@ -11,6 +11,8 @@ public:
     bool userAdd(const QString &name, const xsPassword &password, const QString &database, int level);
     //bool userRemove(const QString &name, const xsPassword &password); TODO: Add privilege level
 
+    QStringList getUsers();
+
     xsDatabase* manager;
 };
 

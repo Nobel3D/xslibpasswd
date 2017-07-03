@@ -2,7 +2,7 @@
 
 Login::Login(const QString &_manager)
 {
-    manager = new xsDatabase(_manager);
+    manager = new xsDatabase(_manager, "manager");
    if(!manager->getTables().contains("stronghold"))
    {
        QList<QSqlField> fields;
@@ -47,4 +47,13 @@ bool Login::userAdd(const QString &name, const xsPassword &password, const QStri
         qDebug() << manager->getLastQuery() << endl << manager->getMessage() << endl;
         return false;
     }
+}
+
+QStringList Login::getUsers()
+{
+    QList<QVariant> in = manager->getColumn(QSqlField("user", QVariant::String));
+    QStringList out;
+    for(int i = 0; i < in.count(); i++)
+        out.append(in.at(i).toString());
+    return out;
 }

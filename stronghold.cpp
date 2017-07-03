@@ -161,12 +161,12 @@ bool Stronghold::userCreate(const QString &name, const xsPassword& passwd, const
         return false;
 }
 
-bool Stronghold::userJoin(const QString &user, QString &passwd)
+bool Stronghold::userJoin(const QString &user, const QString &passwd)
 {
     QString dbfile = login->login(user, xsPassword(passwd));
     if(!dbfile.isEmpty())
     {
-        database = new xsDatabase(dbfile);
+        database = new xsDatabase(dbfile, "passwd");
         blowfish = new xsBlowfish(passwd);
         return true;
     }
