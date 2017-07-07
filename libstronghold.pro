@@ -26,12 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     stronghold.cpp \
-    login.cpp
+    user.cpp \
+    pem.cpp \
+    sum.cpp
 
 HEADERS +=\
     stronghold.h \
     stronghold_global.h \
-    login.h
+    user.h \
+    pem.h \
+    sum.h
 
 unix {
     target.path = /usr/lib
