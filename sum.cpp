@@ -60,7 +60,14 @@ bool SUM::update(int field, int row, const QVariant &value)
         password.setPassword(value.toString());
         buffer = password.getPassword();
     }
+    else if(in.name() == "level" && value.canConvert(QVariant::Int))
+    {
+        if(user->getLevel() < value.toInt())
+            return false;
+        buffer.convert(QVariant::Int);
+    }
     db->updateValue(in, buffer, row);
+    return true;
 }
 
 QStringList SUM::getUsers()
