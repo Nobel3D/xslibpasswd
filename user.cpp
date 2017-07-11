@@ -12,14 +12,14 @@ User::User(int _id, const QString &_name, const QString &password, const QString
 QString User::decrypt(const QVariant& encoded)
 {
     if (encoded.type() == QVariant::String)
-        return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toLatin1())));
+        return QString(blowfish->decrypt(QByteArray::fromHex(encoded.toString().toUtf8())));
     else
         return encoded.toString();
 }
 
 QString User::encrypt(const QVariant& decoded)
 {
-    return QString(blowfish->encrypt(decoded.toString().toLatin1()).toHex());
+    return QString(blowfish->encrypt(decoded.toString().toUtf8()).toHex());
 }
 
 int User::getID() { return id; }
