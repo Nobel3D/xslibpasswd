@@ -87,6 +87,16 @@ int PEM::update(const QString &field, const QString &oldvalue, const QString &ne
     return OK;
 }
 
+int PEM::update(const int field, const QString &oldvalue, int id)
+{
+    if(!db->updateValue(db->getField(field), user->encrypt(oldvalue), id))
+    {
+        qDebug() << db->getMessage() << endl << db->getLastQuery();
+        return FAIL;
+    }
+    return OK;
+}
+
 int PEM::update(const QString &field, const QString &newvalue, int id)
 {
     if(!db->updateValue(db->getField(field), user->encrypt(newvalue), id)) //TODO: Check this expr
