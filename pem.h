@@ -11,6 +11,7 @@ public:
     PEM(User *_user);
     int add(QStringList &arg);
     int add(const QStringList &fields, const QStringList &values);
+    int add();
     QStringList get(const QString& field, const QString& value);
     QStringList get(const QString& field);
     QStringList get(int row);
@@ -23,6 +24,8 @@ public:
     QStringList tableList();
     QStringList tableField();
     QString tableActive();
+
+    int commit();
 
     bool exportTable(const QString &dir);
     bool exportDatabase(const QDir &dir);

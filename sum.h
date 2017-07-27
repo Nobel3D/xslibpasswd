@@ -10,6 +10,7 @@ public:
     SUM(const QString& _db);
 
     bool login(const QString &name, const QString &password);
+    QString hit();
 
     bool add(const QString &name, const QString &password, const QString &database, int level);
     int add();
@@ -21,6 +22,7 @@ public:
     User getUser(int id);
     User* getUser();
 
+    xsPassword pwhit;
     xsDatabase* db = nullptr;
     User* user = nullptr;
 };

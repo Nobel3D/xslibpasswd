@@ -6,7 +6,9 @@
 PEM::PEM(User *_user)
 {
     user = _user;
-    db = new xsDatabase(user->getDatabase().replace('~',QDir::homePath()), "pem");
+    db = new xsDatabase(user->getDatabase().replace('~',QDir::homePath()), "pem", RAM, QDir::homePath() + "/xsDatabase.script");
+    //qDebug() << dbuffer->clone(QDir::homePath() + "/new.db");
+    //db = new xsDatabase(QDir::homePath() + "/new.db", "dbuffer", DirectFile, QDir::homePath() + "/xsDatabase.script");
 }
 
 int PEM::add(QStringList &arg)
@@ -42,6 +44,11 @@ int PEM::add(const QStringList &fields, const QStringList &values)
             valuelist.append(values.at(i));
     }
     db->addValue(fieldlist, valuelist);
+}
+
+int PEM::add()
+{
+    db->addValue();
 }
 
 QStringList PEM::get(const QString& field, const QString& value)
@@ -161,6 +168,11 @@ QString PEM::tableActive()
     return db->getTable();
 }
 
+int PEM::commit()
+{
+    return db->script();
+}
+
 bool PEM::exportTable(const QString &dir)
 {
     X_PARAMS(dir.isEmpty());
@@ -168,13 +180,13 @@ bool PEM::exportTable(const QString &dir)
     QStringList buffer;
     QFile file(dir);
     file.open(QFile::WriteOnly);
-    file.write(db->format(db->getFields()).toLatin1() + "\n");
+    file.write(db->format(db->getFields()).toUtf8() + "\n");
 
     for(int i = 0; i < db->getRecordCount() + 1; i++)
     {
         buffer = get(i);
         for(int column = 0; column < buffer.count(); column++)
-            file.write(buffer.at(column).toLatin1() + ",");
+            file.write(buffer.at(column).toUtf8() + ",");
         file.write("\n");
     }
     file.close();

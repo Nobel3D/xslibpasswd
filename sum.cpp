@@ -17,11 +17,16 @@ bool SUM::login(const QString &name, const QString &password)
         return false;
     QList<QVariant> values = db->getRow(index);
 
-    xsPassword encrypt(password);
-    if(values.isEmpty() || encrypt.Check(values.at(2).toString()))
+    pwhit.setPassword(password);
+    if(values.isEmpty() || !pwhit.CheckDirect(values.at(2).toString()))
         return false;
     user = new User(values.at(0).toInt(), values.at(1).toString(), password, values.at(3).toString(), values.at(4).toInt());
     return true;
+}
+
+QString SUM::hit()
+{
+    return "(" + QString::number(pwhit.getHit()) + "/" + QString::number(pwhit.getMaxHit()) + ")";
 }
 
 bool SUM::add(const QString &name, const QString &password, const QString &database, int level) //TODO: xsPassword only for internal use
