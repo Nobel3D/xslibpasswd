@@ -75,6 +75,16 @@ bool SUM::update(int field, int row, const QVariant &value)
     return true;
 }
 
+bool SUM::remove(qlonglong id)
+{
+    if(!db->removeValue(QSqlField("id", QVariant::LongLong), QVariant(id)))
+    {
+        qDebug() << db->getMessage() << endl << db->getLastQuery();
+        return false;
+    }
+    return true;
+}
+
 QStringList SUM::getUsers()
 {
     QList<QVariant> in = db->getColumn(QSqlField("name", QVariant::String));

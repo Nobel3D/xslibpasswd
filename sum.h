@@ -16,7 +16,7 @@ public:
     int add();
 
     bool update(int field, int row, const QVariant &value);
-    //bool remove(const QString &name, const xsPassword &password); TODO: Add privilege level
+    bool remove(qlonglong id); //TODO: Add privilege level
 
     QStringList getUsers();
     User getUser(int id);
