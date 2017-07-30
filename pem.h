@@ -1,7 +1,6 @@
 #ifndef PEM_H
 #define PEM_H
 
-#include "stronghold.h"
 #include "stronghold_global.h"
 #include "user.h"
 

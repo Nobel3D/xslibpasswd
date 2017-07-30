@@ -6,7 +6,9 @@
 
 QT       += sql
 QT       += network
-QT       -= gui
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = stronghold
 TEMPLATE = lib
@@ -28,14 +30,38 @@ SOURCES += \
     stronghold.cpp \
     user.cpp \
     pem.cpp \
-    sum.cpp
+    sum.cpp \
+    mainwindow.cpp \
+    dialogjoin.cpp \
+    uitable.cpp \
+    wincreate.cpp \
+    wingenerate.cpp \
+    xsabout.cpp \
+    plugin.cpp
 
 HEADERS +=\
     stronghold.h \
     stronghold_global.h \
     user.h \
     pem.h \
-    sum.h
+    sum.h \
+    mainwindow.h \
+    dialogjoin.h \
+    uitable.h \
+    wincreate.h \
+    wingenerate.h \
+    xsabout.h \
+    plugin.h
+
+FORMS    += mainwindow.ui \
+    dialogjoin.ui \
+    wincreate.ui \
+    wingenerate.ui \
+    xsabout.ui
+
+RESOURCES += \
+    ../res/res.qrc
+
 
 unix {
     target.path = /usr/lib
