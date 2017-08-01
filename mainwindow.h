@@ -8,8 +8,7 @@
 #include "xsabout.h"
 #include "stronghold_global.h"
 
-#include "pem.h"
-#include "sum.h"
+#include "sui.h"
 #include "plugin.h"
 
 namespace Ui {
@@ -25,30 +24,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_comboTable_currentIndexChanged(int index);
-    void on_buttonAdd_clicked();
-    void on_buttonRemove_clicked();
-    void on_buttonCreate_clicked();
-    void on_menuAboutQT();
-    void on_menuAboutXSoftware();
-    void on_menuImportTable();
-    void on_menuImportDatabase();
-    void on_menuExportTable();
-    void on_menuExportDatabase();
-
     void on_buttonSwitch_clicked();
-    void on_buttonCommit_clicked();
-
-    void on_buttonGenerate_clicked();
-
 private:
     Ui::MainWindow *ui;
-    DialogJoin* uiJoin;
-    winCreate* create;
-    winGenerate* generate;
-    xsAbout* about;
-    SUM* sum;
-    PEM* pem;
+    SUI* sui;
     bool mode = false;
 };
 

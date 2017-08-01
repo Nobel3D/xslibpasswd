@@ -27,17 +27,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    stronghold.cpp \
     user.cpp \
     pem.cpp \
     sum.cpp \
     mainwindow.cpp \
     dialogjoin.cpp \
-    uitable.cpp \
     wincreate.cpp \
     wingenerate.cpp \
     xsabout.cpp \
-    plugin.cpp
+    plugin.cpp \
+    sui.cpp
 
 HEADERS +=\
     stronghold.h \
@@ -47,11 +46,11 @@ HEADERS +=\
     sum.h \
     mainwindow.h \
     dialogjoin.h \
-    uitable.h \
     wincreate.h \
     wingenerate.h \
     xsabout.h \
-    plugin.h
+    plugin.h \
+    sui.h
 
 FORMS    += mainwindow.ui \
     dialogjoin.ui \

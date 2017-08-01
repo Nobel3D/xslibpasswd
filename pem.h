@@ -25,6 +25,7 @@ public:
     QString tableActive();
 
     int commit();
+    int commitClear();
 
     bool exportTable(const QString &dir);
     bool exportDatabase(const QDir &dir);

@@ -5,9 +5,9 @@
 #include "user.h"
 #include "pem.h"
 #include "sum.h"
+#include "sui.h"
 #include "plugin.h"
 
-#include "uitable.h"
 #include "wincreate.h"
 #include "wingenerate.h"
 #include "xsabout.h"

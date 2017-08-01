@@ -173,6 +173,11 @@ int PEM::commit()
     return db->script();
 }
 
+int PEM::commitClear()
+{
+    return db->scriptClear();
+}
+
 bool PEM::exportTable(const QString &dir)
 {
     X_PARAMS(dir.isEmpty());

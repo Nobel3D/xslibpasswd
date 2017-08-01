@@ -37,7 +37,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="uiTable" name="tableView">
+   <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -289,7 +289,6 @@
      <string>Fi&amp;le</string>
     </property>
     <addaction name="actionImport_Table"/>
-    <addaction name="actionImport_Database"/>
     <addaction name="actionExport_Table"/>
     <addaction name="actionExport_Database"/>
    </widget>
@@ -350,13 +349,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>uiTable</class>
-   <extends>QTableView</extends>
-   <header>uitable.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
