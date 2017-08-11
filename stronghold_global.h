@@ -5,7 +5,7 @@
 #include <xslib/xslib.h>
 #include <QDir>
 
-#define XSLIB_STRONGHOLD "0.9"
+#define XSLIB_STRONGHOLD "0.10"
 
 #ifdef __linux__
     #define SH_DIR "/usr/share/xsoftware/Stronghold"

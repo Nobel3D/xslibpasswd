@@ -20,6 +20,7 @@ public:
     bool remove(qlonglong id);
     int tableUse(const QString &table);
     int tableCreate(const QString &table, const QStringList &fields);
+    bool tableDelete(const QString &table);
     QStringList tableList();
     QStringList tableField();
     QString tableActive();

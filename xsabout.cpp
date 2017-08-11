@@ -2,7 +2,7 @@
 #include "ui_xsabout.h"
 #include <QGraphicsPixmapItem>
 #include <xslib/xslib_global.h>
-#include <libStronghold/stronghold_global.h>
+#include <stronghold_global.h>
 
 xsAbout::xsAbout(QWidget *parent) :
     QWidget(parent),

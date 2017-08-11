@@ -14,8 +14,8 @@
    <string>Password Generator</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../res/shield.png</normaloff>../res/shield.png</iconset>
+   <iconset resource="../res/res.qrc">
+    <normaloff>:/xs/shield.png</normaloff>:/xs/shield.png</iconset>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -195,7 +195,9 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

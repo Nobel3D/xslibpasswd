@@ -5,7 +5,7 @@
 #include "user.h"
 #include "pem.h"
 #include "sum.h"
-#include "sui.h"
+#include "mainwindow.h"
 #include "plugin.h"
 
 #include "wincreate.h"

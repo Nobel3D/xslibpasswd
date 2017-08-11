@@ -13,12 +13,14 @@ class winCreate;
 class STRONGHOLDSHARED_EXPORT winCreate : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit winCreate(PEM* _pem, QWidget *parent = 0);
+    explicit winCreate(QWidget *parent = 0);
     ~winCreate();
 
     QString name;
+
+signals:
+    void getTableName(const QString &tablename, const QStringList &fieldname);
 private slots:
     void on_pushAdd_clicked();
 
@@ -28,7 +30,6 @@ private slots:
 
 private:
     Ui::winCreate *ui;
-    PEM* pem;
     QStandardItemModel* list;
 };
 

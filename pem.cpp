@@ -148,6 +148,13 @@ int PEM::tableCreate(const QString &table, const QStringList &fields)
 
     return FAIL;
 }
+bool PEM::tableDelete(const QString &table)
+{
+    if(!db->deleteTable(table))
+        return true;
+    else
+        return false;
+}
 
 QStringList PEM::tableList()
 {

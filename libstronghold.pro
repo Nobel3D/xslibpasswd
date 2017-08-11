@@ -30,13 +30,14 @@ SOURCES += \
     user.cpp \
     pem.cpp \
     sum.cpp \
-    mainwindow.cpp \
     dialogjoin.cpp \
     wincreate.cpp \
     wingenerate.cpp \
     xsabout.cpp \
     plugin.cpp \
-    sui.cpp
+    uitablelist.cpp \
+    uiactions.cpp \
+    mainwindow.cpp
 
 HEADERS +=\
     stronghold.h \
@@ -44,23 +45,24 @@ HEADERS +=\
     user.h \
     pem.h \
     sum.h \
-    mainwindow.h \
     dialogjoin.h \
     wincreate.h \
     wingenerate.h \
     xsabout.h \
     plugin.h \
-    sui.h
+    uitablelist.h \
+    uiactions.h \
+    mainwindow.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     dialogjoin.ui \
     wincreate.ui \
     wingenerate.ui \
-    xsabout.ui
+    xsabout.ui \
+    mainwindow.ui
 
 RESOURCES += \
     ../res/res.qrc
-
 
 unix {
     target.path = /usr/lib

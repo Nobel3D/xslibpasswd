@@ -6,273 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1000</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>400</width>
+    <height>400</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Stronghold</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../res/shield.png</normaloff>../res/shield.png</iconset>
+   <iconset resource="../res/res.qrc">
+    <normaloff>:/xs/shield.png</normaloff>:/xs/shield.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLineEdit" name="boxStatus">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>520</y>
-      <width>800</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QTableView" name="tableView">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>50</y>
-      <width>641</width>
-      <height>451</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboTable">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>10</y>
-      <width>251</width>
-      <height>35</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonAdd">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>210</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>39</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="insert-table-row">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonRemove">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>280</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>39</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="delete-table-row">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonSwitch">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>140</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="view-refresh">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonCommit">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>350</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>39</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="document-save">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonGenerate">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>70</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>39</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="password-copy">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="buttonCreate">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>0</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>39</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <underline>false</underline>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset theme="insert-table">
-      <normaloff>.</normaloff>.</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>44</width>
-      <height>44</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="2">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="0" column="3">
+     <widget class="uiActions" name="actions" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="uiTableList" name="tables" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -280,7 +56,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1000</width>
      <height>23</height>
     </rect>
    </property>
@@ -299,10 +75,33 @@
     <addaction name="actionAbout_XSoftware"/>
     <addaction name="actionAbout_QT"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionAdd_Row"/>
+    <addaction name="actionDelete_Row"/>
+    <addaction name="actionSave_Changes"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_Table"/>
+    <addaction name="actionDelete_Table"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionPassword_Generator"/>
+    <addaction name="actionSwitch_Mode"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionImport_Table">
+   <property name="icon">
+    <iconset theme="document-import"/>
+   </property>
    <property name="text">
     <string>&amp;Import Table</string>
    </property>
@@ -313,11 +112,17 @@
    </property>
   </action>
   <action name="actionExport_Table">
+   <property name="icon">
+    <iconset theme="document-export"/>
+   </property>
    <property name="text">
     <string>&amp;Export Table</string>
    </property>
   </action>
   <action name="actionExport_Database">
+   <property name="icon">
+    <iconset theme="libreoffice-database"/>
+   </property>
    <property name="text">
     <string>E&amp;xport Database</string>
    </property>
@@ -328,11 +133,18 @@
    </property>
   </action>
   <action name="actionAbout_XSoftware">
+   <property name="icon">
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/xs/men.png</normaloff>:/xs/men.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About XSoftware</string>
    </property>
   </action>
   <action name="actionAbout_QT">
+   <property name="icon">
+    <iconset theme="qtcreator"/>
+   </property>
    <property name="text">
     <string>About &amp;Qt Framework</string>
    </property>
@@ -347,8 +159,79 @@
     <string>Switch &amp;Database Mode</string>
    </property>
   </action>
+  <action name="actionAdd_Row">
+   <property name="icon">
+    <iconset theme="insert-table-row"/>
+   </property>
+   <property name="text">
+    <string>Add Row</string>
+   </property>
+  </action>
+  <action name="actionDelete_Row">
+   <property name="icon">
+    <iconset theme="delete-table-row"/>
+   </property>
+   <property name="text">
+    <string>Delete Row</string>
+   </property>
+  </action>
+  <action name="actionSave_Changes">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
+   <property name="text">
+    <string>Save Changes</string>
+   </property>
+  </action>
+  <action name="actionPassword_Generator">
+   <property name="icon">
+    <iconset theme="password-copy"/>
+   </property>
+   <property name="text">
+    <string>Password Generator</string>
+   </property>
+  </action>
+  <action name="actionSwitch_Mode">
+   <property name="icon">
+    <iconset theme="view-refresh"/>
+   </property>
+   <property name="text">
+    <string>Switch Mode</string>
+   </property>
+  </action>
+  <action name="actionAdd_Table">
+   <property name="icon">
+    <iconset theme="insert-table"/>
+   </property>
+   <property name="text">
+    <string>Add Table</string>
+   </property>
+  </action>
+  <action name="actionDelete_Table">
+   <property name="icon">
+    <iconset theme="delete_table"/>
+   </property>
+   <property name="text">
+    <string>Delete Table</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>uiActions</class>
+   <extends>QWidget</extends>
+   <header>uiactions.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>uiTableList</class>
+   <extends>QWidget</extends>
+   <header>uitablelist.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
  <connections/>
 </ui>
