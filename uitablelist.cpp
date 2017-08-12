@@ -30,7 +30,7 @@ void uiTableList::setupUi()
 
     pushButtonDelete = new QPushButton(this);
     pushButtonDelete->setObjectName(QStringLiteral("pushButtonDelete"));
-    pushButtonDelete->setIcon(xsUi::getFromIcons(QSL(":/icons/delete-table.svg")));
+    pushButtonDelete->setIcon(xsUi::getFromIcons(QSL(":/icons/delete_table.svg")));
     pushButtonDelete->setIconSize(QSize(44, 44));
     pushButtonDelete->setFlat(true);
 

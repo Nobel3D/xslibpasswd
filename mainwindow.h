@@ -18,9 +18,6 @@
 #include <QItemSelectionModel>
 #include <QStandardItemModel>
 
-namespace Ui {
-class MainWindow;
-}
 
 class STRONGHOLDSHARED_EXPORT MainWindow : public QMainWindow
 {
@@ -34,12 +31,42 @@ public:
 
     QStringList tableList();
 
+    void setupUi();
+    void retranslateUi();
+
     bool bChanges = false;
     bool bAdmin = false;
     QStandardItemModel* table;
-    Ui::MainWindow *ui;
     SUM* sum;
     PEM* pem;
+
+    QAction *actionImport_Table;
+    QAction *actionImport_Database;
+    QAction *actionExport_Table;
+    QAction *actionExport_Database;
+    QAction *actionGenerator;
+    QAction *actionAbout_XSoftware;
+    QAction *actionAbout_QT;
+    QAction *actionAdminMode;
+    QAction *actionDatabaseMode;
+    QAction *actionAdd_Row;
+    QAction *actionDelete_Row;
+    QAction *actionSave_Changes;
+    QAction *actionPassword_Generator;
+    QAction *actionSwitch_Mode;
+    QAction *actionAdd_Table;
+    QAction *actionDelete_Table;
+    QWidget *centralWidget;
+    QGridLayout *gridLayout;
+    QTableView *tableView;
+    uiActions *actions;
+    uiTableList *tables;
+    QStatusBar *statusBar;
+    QMenuBar *menuBar;
+    QMenu *menuFile;
+    QMenu *menuHelp;
+    QMenu *menuEdit;
+    QMenu *menuTools;
 
 signals:
 

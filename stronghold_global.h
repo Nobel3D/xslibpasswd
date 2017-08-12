@@ -5,12 +5,12 @@
 #include <xslib.h>
 #include <QDir>
 
-#define XSLIB_STRONGHOLD "0.10a"
+#define XSLIB_STRONGHOLD "0.10b"
 
 #ifdef WIN32
     #define SH_DIR PROGRAMPATH + "/xsoftware/Stronghold/"
-//#else
-//    #define SH_DIR "/usr/share/xsoftware/Stronghold/"
+#else
+    #define SH_DIR QString("/usr/share/xsoftware/Stronghold/")
 #endif
 #define LOGINFILE SH_DIR + "Stronghold.db"
 

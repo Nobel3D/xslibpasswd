@@ -58,20 +58,21 @@ FORMS    += \
     dialogjoin.ui \
     wincreate.ui \
     wingenerate.ui \
-    xsabout.ui \
-    mainwindow.ui
+    xsabout.ui
 
 RESOURCES += \
-    ../res/res.qrc
+    ../xsResource/res.qrc
 
-unix {
+linux {
+    INCLUDEPATH += /usr/include/xslib
     target.path = /usr/lib
     INSTALLS += target
 }
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../bin/release/ -lxs
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../bin/debug/ -lxs
-else:unix: LIBS += -L$$PWD/../bin/ -lxs
+else:unix: LIBS += -L$$PWD/../../bin/ -lxs
 
 INCLUDEPATH += $$PWD/../xslib
 DEPENDPATH += $$PWD/../xslib
+
