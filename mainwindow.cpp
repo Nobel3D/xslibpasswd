@@ -6,6 +6,7 @@
 #include <wingenerate.h>
 #include <wincreate.h>
 #include <xsabout.h>
+#include <QIcon>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                    QMessageBox::warning(nullptr, "plugin", QString::number(s->use()));
                }
        */
+    //QIcon::setThemeSearchPaths(QStringList(QStringLiteral("C:\\Users\\admin\\Desktop\\git\\xsPasswdRepo\\res\\")));
     ui->setupUi(this);
     table = new QStandardItemModel;
     ui->tableView->setModel(table);
@@ -81,17 +83,18 @@ void MainWindow::switchMode()
 {
     if(bAdmin)
     {
-        adminTable();
         ui->actions->pushButtonCommit->setDisabled(false);
-        ui->actions->pushButtonAdd->setIcon(QIcon::fromTheme("insert-table-row"));
-        ui->actions->pushButtonDelete->setIcon(QIcon::fromTheme("delete-table-row"));
+        ui->actions->pushButtonAdd->setIcon(xsUi::getFromIcons(QSL(":/icons/insert-table-row.svg")));
+        ui->actions->pushButtonDelete->setIcon(xsUi::getFromIcons(QSL(":/icons/delete-table-row.svg")));
+        ui->actions->pushButtonSwitch->setIcon(xsUi::getFromIcons(QSL(":/icons/system-switch-user.svg")));
         databaseTable(pem->tableActive());
     }
     else
     {
         ui->actions->pushButtonCommit->setDisabled(true);
-        ui->actions->pushButtonAdd->setIcon(QIcon::fromTheme("list-add-user"));
-        ui->actions->pushButtonDelete->setIcon(QIcon::fromTheme("list-remove-user"));
+        ui->actions->pushButtonAdd->setIcon(xsUi::getFromIcons(QSL(":/icons/list-add-user.svg")));
+        ui->actions->pushButtonDelete->setIcon(xsUi::getFromIcons(QSL(":/icons/list-remove-user.svg")));
+        ui->actions->pushButtonSwitch->setIcon(xsUi::getFromIcons(QSL(":/icons/table.svg")));
         adminTable();
     }
 }

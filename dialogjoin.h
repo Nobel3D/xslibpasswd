@@ -2,7 +2,6 @@
 #define DIALOGJOIN_H
 
 #include <QDialog>
-#include <xslib/xslib.h>
 #include "stronghold_global.h"
 #include "sum.h"
 

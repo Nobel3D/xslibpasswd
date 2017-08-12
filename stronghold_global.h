@@ -2,15 +2,17 @@
 #define XSLIBPASSWD_GLOBAL_H
 
 #include <QtCore/qglobal.h>
-#include <xslib/xslib.h>
+#include <xslib.h>
 #include <QDir>
 
-#define XSLIB_STRONGHOLD "0.10"
+#define XSLIB_STRONGHOLD "0.10a"
 
-#ifdef __linux__
-    #define SH_DIR "/usr/share/xsoftware/Stronghold"
+#ifdef WIN32
+    #define SH_DIR PROGRAMPATH + "/xsoftware/Stronghold/"
+//#else
+//    #define SH_DIR "/usr/share/xsoftware/Stronghold/"
 #endif
-#define LOGINFILE "/usr/share/xsoftware/Stronghold/Stronghold.db"
+#define LOGINFILE SH_DIR + "Stronghold.db"
 
 
 #if defined(STRONGHOLD_LIBRARY)

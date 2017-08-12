@@ -111,8 +111,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="insert-table-row">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="insert-table-row" resource="../res/res.qrc">
+     <normaloff>:/icons/insert-table-row.svg</normaloff>:/icons/insert-table-row.svg</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -147,8 +147,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="delete-table-row">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="delete-table-row" resource="../res/res.qrc">
+     <normaloff>:/icons/delete-table-row.svg</normaloff>:/icons/delete-table-row.svg</iconset>
    </property>
    <property name="iconSize">
     <size>

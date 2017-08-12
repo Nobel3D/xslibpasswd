@@ -57,7 +57,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -100,7 +100,8 @@
   </widget>
   <action name="actionImport_Table">
    <property name="icon">
-    <iconset theme="document-import"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/document-import.svg</normaloff>:/icons/document-import.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Import Table</string>
@@ -113,7 +114,8 @@
   </action>
   <action name="actionExport_Table">
    <property name="icon">
-    <iconset theme="document-export"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/document-export.svg</normaloff>:/icons/document-export.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Export Table</string>
@@ -121,7 +123,8 @@
   </action>
   <action name="actionExport_Database">
    <property name="icon">
-    <iconset theme="libreoffice-database"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/network-server-database.svg</normaloff>:/icons/network-server-database.svg</iconset>
    </property>
    <property name="text">
     <string>E&amp;xport Database</string>
@@ -143,7 +146,8 @@
   </action>
   <action name="actionAbout_QT">
    <property name="icon">
-    <iconset theme="qtcreator"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/qtcreator.svg</normaloff>:/icons/qtcreator.svg</iconset>
    </property>
    <property name="text">
     <string>About &amp;Qt Framework</string>
@@ -161,7 +165,8 @@
   </action>
   <action name="actionAdd_Row">
    <property name="icon">
-    <iconset theme="insert-table-row"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/insert-table-row.svg</normaloff>:/icons/insert-table-row.svg</iconset>
    </property>
    <property name="text">
     <string>Add Row</string>
@@ -169,7 +174,8 @@
   </action>
   <action name="actionDelete_Row">
    <property name="icon">
-    <iconset theme="delete-table-row"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/delete-table-row.svg</normaloff>:/icons/delete-table-row.svg</iconset>
    </property>
    <property name="text">
     <string>Delete Row</string>
@@ -177,7 +183,8 @@
   </action>
   <action name="actionSave_Changes">
    <property name="icon">
-    <iconset theme="document-save"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/document-save.svg</normaloff>:/icons/document-save.svg</iconset>
    </property>
    <property name="text">
     <string>Save Changes</string>
@@ -185,7 +192,8 @@
   </action>
   <action name="actionPassword_Generator">
    <property name="icon">
-    <iconset theme="password-copy"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/password-generate.svg</normaloff>:/icons/password-generate.svg</iconset>
    </property>
    <property name="text">
     <string>Password Generator</string>
@@ -193,7 +201,8 @@
   </action>
   <action name="actionSwitch_Mode">
    <property name="icon">
-    <iconset theme="view-refresh"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/system-switch-user.svg</normaloff>:/icons/system-switch-user.svg</iconset>
    </property>
    <property name="text">
     <string>Switch Mode</string>
@@ -201,7 +210,8 @@
   </action>
   <action name="actionAdd_Table">
    <property name="icon">
-    <iconset theme="insert-table"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/insert-table.svg</normaloff>:/icons/insert-table.svg</iconset>
    </property>
    <property name="text">
     <string>Add Table</string>
@@ -209,7 +219,8 @@
   </action>
   <action name="actionDelete_Table">
    <property name="icon">
-    <iconset theme="delete_table"/>
+    <iconset resource="../res/res.qrc">
+     <normaloff>:/icons/delete-table.svg</normaloff>:/icons/delete-table.svg</iconset>
    </property>
    <property name="text">
     <string>Delete Table</string>

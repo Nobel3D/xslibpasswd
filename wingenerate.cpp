@@ -1,6 +1,6 @@
 #include "wingenerate.h"
 #include "ui_wingenerate.h"
-#include <xslib/xslib.h>
+#include "stronghold_global.h"
 #include <QCheckBox>
 
 winGenerate::winGenerate(QWidget *parent) :
