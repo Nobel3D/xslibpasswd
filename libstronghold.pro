@@ -60,8 +60,7 @@ FORMS    += \
     wingenerate.ui \
     xsabout.ui
 
-RESOURCES += \
-    ../xsResource/res.qrc
+RESOURCES += ../xsResource/res.qrc
 
 linux {
     INCLUDEPATH += /usr/include/xslib
