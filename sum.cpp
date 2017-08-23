@@ -3,11 +3,20 @@
 
 SUM::SUM(const QString &_db)
 {
-   db = new xsDatabase(QFileInfo(_db), "sum");
-   if(!db->getTables().contains("stronghold"))
-        qWarning() << "Database manager didn't find on directory " << _db;
-   else
-       db->useTable("stronghold");
+    db = new xsDatabase(_db, "sum");
+    if(!db->getTables().contains("stronghold"))
+    {
+        QList<QSqlField> fields;
+        fields.append(QSqlField("id", QVariant::LongLong));
+        fields.append(QSqlField("name", QVariant::String));
+        fields.append(QSqlField("password", QVariant::String));
+        fields.append(QSqlField("database", QVariant::String));
+        fields.append(QSqlField("level", QVariant::Int));
+        db->createTable("stronghold", fields);
+    }
+
+    db->useTable("stronghold");
+
 }
 
 bool SUM::login(const QString &name, const QString &password)
@@ -24,9 +33,33 @@ bool SUM::login(const QString &name, const QString &password)
     return true;
 }
 
+
+bool SUM::isFirstRun()
+{
+    return db->getRecordCount() <= 0;
+}
+
 QString SUM::hit()
 {
     return "(" + QString::number(pwhit.getHit()) + "/" + QString::number(pwhit.getMaxHit()) + ")";
+}
+
+QStringList SUM::get(int index)
+{
+    QList<QVariant> in(db->getRow(index));
+    QStringList out;
+    for(int i = 0; i < in.size(); i++)
+        out.append(in.at(i).toString());
+    return out;
+}
+
+QStringList SUM::getFields()
+{
+    QStringList offset;
+    QList<QSqlField> buffer = db->getFields();
+    for(int i = 0; i < buffer.count(); i++)
+        offset.append(buffer.at(i).name());
+    return offset;
 }
 
 bool SUM::add(const QString &name, const QString &password, const QString &database, int level) //TODO: xsPassword only for internal use
@@ -34,6 +67,7 @@ bool SUM::add(const QString &name, const QString &password, const QString &datab
     if(user->getLevel() < level)
         return false;
 
+    db->useTable("stronghold");
     QList<QVariant> values;
     xsPassword pw(password);
     values.append(name);
@@ -53,6 +87,28 @@ bool SUM::add(const QString &name, const QString &password, const QString &datab
 int SUM::add()
 {
     db->addValue();
+}
+
+bool SUM::addRoot(const QString &name, const QString &password, const QString &database)
+{
+    db->useTable("stronghold");
+    QList<QVariant> values;
+    xsPassword pw(password);
+    values.append(name);
+    values.append(pw.getPassword());
+    values.append(database);
+    values.append(100);
+
+    if(db->addValue(values))
+    {
+        user = new User(0, name, password, database, 100);
+        return true;
+    }
+    else
+    {
+        qDebug() << db->getLastQuery() << endl << db->getMessage() << endl;
+        return false;
+    }
 }
 
 bool SUM::update(int field, int row, const QVariant &value)

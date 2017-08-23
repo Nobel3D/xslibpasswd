@@ -6,7 +6,7 @@
 
 QT       += sql
 QT       += network
-QT       += core gui
+QT       += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,14 +30,8 @@ SOURCES += \
     user.cpp \
     pem.cpp \
     sum.cpp \
-    dialogjoin.cpp \
-    wincreate.cpp \
-    wingenerate.cpp \
-    xsabout.cpp \
     plugin.cpp \
-    uitablelist.cpp \
-    uiactions.cpp \
-    mainwindow.cpp
+
 
 HEADERS +=\
     stronghold.h \
@@ -45,22 +39,8 @@ HEADERS +=\
     user.h \
     pem.h \
     sum.h \
-    dialogjoin.h \
-    wincreate.h \
-    wingenerate.h \
-    xsabout.h \
     plugin.h \
-    uitablelist.h \
-    uiactions.h \
-    mainwindow.h
 
-FORMS    += \
-    dialogjoin.ui \
-    wincreate.ui \
-    wingenerate.ui \
-    xsabout.ui
-
-RESOURCES += ../xsResource/res.qrc
 
 linux {
     INCLUDEPATH += /usr/include/xslib

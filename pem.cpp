@@ -21,9 +21,9 @@ int PEM::add(QStringList &arg)
     {
         qDebug() << "Impossible to add some value into " << db->getTable() << endl <<
                     db->getMessage() << endl << db->getLastQuery() << endl;
-        return FAIL;
+        return -1;
     }
-    return OK;
+    return db->findValue(db->getField(0), db->getRecordCount() - 1).toInt(); //TODO: Better management
 }
 
 int PEM::add(const QStringList &fields, const QStringList &values)
@@ -44,11 +44,14 @@ int PEM::add(const QStringList &fields, const QStringList &values)
             valuelist.append(values.at(i));
     }
     db->addValue(fieldlist, valuelist);
+
+    return db->findValue(db->getField(0), db->getRecordCount() - 1).toInt() + 1; //TODO: Better management
 }
 
 int PEM::add()
 {
     db->addValue();
+    return db->findValue(db->getField(0), db->getRecordCount() - 1).toInt() + 1; //TODO: Better management
 }
 
 QStringList PEM::get(const QString& field, const QString& value)
@@ -104,9 +107,9 @@ int PEM::update(const int field, const QString &oldvalue, int id)
     return OK;
 }
 
-int PEM::update(const QString &field, const QString &newvalue, int id)
+int PEM::update(const QString &field, int row, const QString &newvalue)
 {
-    if(!db->updateValue(db->getField(field), user->encrypt(newvalue), id)) //TODO: Check this expr
+    if(!db->updateValue(db->getField(field), user->encrypt(newvalue), row)) //TODO: Check this expr
     {
         //strStatus = db->getMessage() + endl + db->getLastQuery();
         return FAIL;

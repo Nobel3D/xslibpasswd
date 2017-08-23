@@ -5,7 +5,7 @@
 #include <xslib.h>
 #include <QDir>
 
-#define XSLIB_STRONGHOLD "0.10b"
+#define XSLIB_STRONGHOLD "0.11"
 
 #ifdef WIN32
     #define SH_DIR PROGRAMPATH + "/xsoftware/Stronghold/"

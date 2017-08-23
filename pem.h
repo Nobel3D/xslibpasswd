@@ -15,7 +15,7 @@ public:
     QStringList get(const QString& field);
     QStringList get(int row);
     int update(const QString &field, const QString &oldvalue, const QString &newvalue);
-    int update(const QString &field, const QString &oldvalue, int id);
+    int update(const QString &field, int row, const QString &newvalue);
     int update(const int field, const QString &oldvalue, int id);
     bool remove(qlonglong id);
     int tableUse(const QString &table);
